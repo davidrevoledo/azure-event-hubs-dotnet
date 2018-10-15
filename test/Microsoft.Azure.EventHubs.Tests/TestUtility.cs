@@ -14,8 +14,8 @@ namespace Microsoft.Azure.EventHubs.Tests
     {
         static TestUtility()
         {
-            var ehConnectionString = Environment.GetEnvironmentVariable(TestConstants.EventHubsConnectionStringEnvironmentVariableName);
-            var storageConnectionString = Environment.GetEnvironmentVariable(TestConstants.StorageConnectionStringEnvironmentVariableName);
+            var ehConnectionString = "Endpoint=sb://rofextshub.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=qTjI94xhFZoubzqxZAkeQdLnklw1YOatQTN8MPMjxFU=";
+            var storageConnectionString = "Endpoint=sb://rofextshub.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=qTjI94xhFZoubzqxZAkeQdLnklw1YOatQTN8MPMjxFU=";
 
             if (string.IsNullOrWhiteSpace(ehConnectionString))
             {

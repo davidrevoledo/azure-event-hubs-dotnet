@@ -37,9 +37,9 @@ namespace Microsoft.Azure.EventHubs.Amqp
         }
 
         public AmqpEventHubClient(
-            Uri endpointAddress, 
-            string entityPath, 
-            ITokenProvider tokenProvider, 
+            Uri endpointAddress,
+            string entityPath,
+            ITokenProvider tokenProvider,
             TimeSpan operationTimeout,
             EventHubs.TransportType transportType)
             : base(new EventHubsConnectionStringBuilder(endpointAddress, entityPath, operationTimeout, transportType))
@@ -66,7 +66,15 @@ namespace Microsoft.Azure.EventHubs.Amqp
 
         internal override EventDataSender OnCreateEventSender(string partitionId)
         {
-            return new AmqpEventDataSender(this, partitionId);
+            var sender = new AmqpEventDataSender(this, partitionId);
+
+            // register all the plugins
+            foreach (var plugin in this.RegisteredPlugins)
+            {
+                sender.RegisterPlugin(plugin.Value);
+            }
+
+            return sender;
         }
 
         protected override PartitionReceiver OnCreateReceiver(
@@ -206,7 +214,7 @@ namespace Microsoft.Azure.EventHubs.Amqp
             };
 
             // Proxy Uri provided?
-            if(webProxy != null)
+            if (webProxy != null)
             {
                 ts.Proxy = webProxy;
             }
